@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>无缝滚动</title>
+    <style type="text/css">
+    *{
+        margin: 0px;
+        padding: 0px;
+    }
+    #div{
+        overflow: hidden;
+        width: 1000px;
+        height: 200px;
+        background-color: crimson;
+        position:relative;
+        margin: 100px auto 0;
+    }
+    img{
+        width: 200px;
+        height: 200px;
+    }
+    ul{
+        position: absolute;
+        width: 1000px;
+        height: 200px;
+        list-style: none;
+        left: 0;
+        top:0;
+
+    }
+    li{
+        width: 200px;
+        height: 200px;
+        float: left;
+
+    }
+    .bbb {
+        position: absolute;
+        top: 200px;
+
+    }
+    #b1{
+        left: 130px;
+    }
+    #b2{
+        left: 1190px;
+    }
+    </style>
+</head>
+<body>
+    <button id="b1" class="bbb">向左滚</button>
+    <div id="div">
+        <ul>
+            <li><img src="img/1.jpg"/></li>
+            <li><img src="img/2.jpg"/></li>
+            <li><img src="img/3.jpg"/></li>
+            <li><img src="img/4.jpg"/></li>
+            <li><img src="img/5.jpg"/></li>
+        </ul>
+    </div>
+    <button id="b2" class="bbb">向右滚</button>
+</body>
+</html>
+<script>
+    var div = document.getElementById('div');
+    var ul =document.getElementsByTagName('ul')[0];
+    var li =document.getElementsByTagName('li');
+    var dingshi;
+    var b1 =document.getElementById('b1');
+    var b2 =document.getElementById('b2');
+    var speed=5;
+    //    多复制一份ul的内容
+    ul.innerHTML= ul.innerHTML+ul.innerHTML;
+    //    修改ul的宽度
+    ul.style.width=li[0].offsetWidth*li.length+'px';
+    function move() {
+        if(ul.offsetLeft<-(ul.offsetWidth/2)){
+            ul.style.left='0';
+        }
+        if(ul.offsetLeft>0){
+            ul.style.left=-(ul.offsetWidth/2)+'px';
+        }
+        ul.style.left=ul.offsetLeft+speed+'px';
+    }
+    //    一加载就该定时器
+    dingshi= setInterval(function () {
+        move();
+    },30);
+    //    鼠标移到图片区域停止动画并鼠标显示手
+    function div1blick() {
+        clearInterval(dingshi);
+        div.style.cursor='pointer';
+    }
+    //    鼠标离开图片区域重新开启定时器
+    function div2blick() {
+        dingshi= setInterval(function () {
+            move();
+        },30)
+    }
+    //    点击向左滚按钮使轮播向左滚动
+    function b1click() {
+        speed=-5;
+    }
+    //    点击向右滚按钮使轮播向右滚动
+    function b2click() {
+        speed=5;
+    }
+    div.addEventListener('mouseover',div1blick);
+    div.addEventListener('mouseout',div2blick);
+    b1.addEventListener('click',b1click);
+    b2.addEventListener('click',b2click);
+</script>
